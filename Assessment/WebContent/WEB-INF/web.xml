@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>Assessment</display-name>
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>org.testpress.controllers.LoginController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>InsertServlet</servlet-name>
+    <servlet-class>org.testpress.controllers.QuestionInsertController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InsertServlet</servlet-name>
+    <url-pattern>/insert</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetQuestionServlet</servlet-name>
+    <servlet-class>org.testpress.controllers.GetQuestionController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetQuestionServlet</servlet-name>
+    <url-pattern>/start</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>SubmitAnswerServlet</servlet-name>
+    <servlet-class>org.testpress.controllers.SubmitAnswerController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SubmitAnswerServlet</servlet-name>
+    <url-pattern>/answer</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>TestResultServlet</servlet-name>
+    <servlet-class>org.testpress.controllers.TestResultController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestResultServlet</servlet-name>
+    <url-pattern>/result</url-pattern>
+  </servlet-mapping>
+</web-app>
