@@ -55,9 +55,49 @@
           <% 
         }
      %>
+
+<form action="insertanswer" method="get" name="form1" id="form1">
+<table>
+   <tr>
+      <td COLSPAN="2" align="center">SET ANSWER</td>
+   </tr>
+   <tr>
+      <td>Question No</td>
+      <td><input type="text" name="qNo" id="qNo"></td>
+   </tr>
+   <tr>
+      <td>Answer</td>
+      <td><input type="text" name="answer" id="answer"></td>
+   </tr>
+   <tr>
+     <td colspan="2" align="right"><input type="button" value="add" onclick="validation()"></td>
+   </tr>
+</table>
+</form>
+
+<script type="text/javascript">
+    function validation() {
+	   var qno = "";
+	   var answer = "";
+	   qno = document.getElementById("qNo").value;
+	   answer = document.getElementById("answer").value;
+	   if(qno == "") {
+		   alert("Please enter the question no");
+		   document.getElementById("qNo").focus();
+		   return false;
+	   }
+	   
+	   if(answer == "" || answer == "a" || answer == "b" || answer == "c" || answer == "d") {
+		   alert("Please enter the answer as A,B,C,D only");
+		   document.getElementById("answer").focus();
+		   return false;
+	   }
+	   document.getElementById("form1").submit();
+   }
+
+</script>
   
-  
-  <a href="staffmain.jsp">Insert another question</a>
+ <a href="staffmain.jsp">Insert another question</a>
 </body>
 </center>
 </html>

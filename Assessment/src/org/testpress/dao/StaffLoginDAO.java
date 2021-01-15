@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.testpress.bean.StaffBean;
+import org.testpress.service.Utility;
 
 public class StaffLoginDAO {
 	
@@ -17,8 +18,7 @@ public class StaffLoginDAO {
 		String result = null;
 		
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ranadheer", "ravan");
+			con = Utility.getConnection();
 			pstmt = con.prepareStatement("select * from staff where username=? and password=?");
 			pstmt.setString(1, staffBean.getUserName());
 			pstmt.setString(2, staffBean.getPassWord());
@@ -31,8 +31,6 @@ public class StaffLoginDAO {
 			}
 			System.out.println(" inside login dao : " + result );
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -55,16 +53,13 @@ public class StaffLoginDAO {
 		String result = null;
 		
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ranadheer", "ravan");
+			con = Utility.getConnection();
 			pstmt = con.prepareStatement("update staff set last_login_time = sysdate where username=?");
 			pstmt.setString(1, username);
 			int no = pstmt.executeUpdate();
 			con.commit();
 			System.out.println(no + " time last login date updated");
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -88,8 +83,7 @@ public class StaffLoginDAO {
 		ResultSet rs = null;
 		
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ranadheer", "ravan");
+			con = Utility.getConnection();
 			String sql = "select TO_CHAR(last_login_time, 'DD/MM/YYYY HH24:MI:SS') from staff where username=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, username);
@@ -107,8 +101,6 @@ public class StaffLoginDAO {
 			}
 			con.commit();
 			System.out.println("get last login time : " + lastLoginTime);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

@@ -41,4 +41,13 @@
     <servlet-name>TestResultServlet</servlet-name>
     <url-pattern>/result</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>AnswerSetServlet</servlet-name>
+    <servlet-class>org.testpress.controllers.AnswerSetController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AnswerSetServlet</servlet-name>
+    <url-pattern>/insertanswer</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

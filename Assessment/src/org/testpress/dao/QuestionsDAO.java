@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import org.testpress.bean.QuestionBean;
 import org.testpress.bean.ResultBean;
+import org.testpress.service.Utility;
 
 public class QuestionsDAO {
 	
@@ -19,8 +20,7 @@ public class QuestionsDAO {
 		PreparedStatement pstmt = null;
 		String result = "";
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ranadheer", "ravan");
+			con = Utility.getConnection();
 		    String sql = "insert into question_set values(?, ?, ?, ?, ?, ?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, questionBean.getQuestionNo());
@@ -37,8 +37,6 @@ public class QuestionsDAO {
 				result = "-1; Question insertion failed";
 			}
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -65,8 +63,7 @@ public class QuestionsDAO {
 		String result = "";
 		ArrayList<QuestionBean> questionList = null;
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ranadheer", "ravan");
+			con = Utility.getConnection();
 		    String sql = "select * from question_set";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -86,8 +83,6 @@ public class QuestionsDAO {
 			}
 			con.commit();
 					
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -112,8 +107,7 @@ public class QuestionsDAO {
 		ArrayList<QuestionBean> questionList = null;
 		
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ranadheer", "ravan");
+			con = Utility.getConnection();
 		    String sql = "select * from question_set where sno=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, questionNo);
@@ -143,8 +137,6 @@ public class QuestionsDAO {
 			}
 			con.commit();
 					
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -170,8 +162,7 @@ public class QuestionsDAO {
 		String sql = "";
 		
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ranadheer", "ravan");
+			con = Utility.getConnection();
 		    sql = "select * from answers where qno=? and answer=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, qno);
@@ -199,8 +190,6 @@ public class QuestionsDAO {
 			}
 			con.commit();
 					
-		} catch (ClassNotFoundException e) {
-			result = "-1; Wrong Answer";
 		} catch (SQLException e) {
 			result = "-1; Wrong Answer";
 		} finally {
@@ -222,16 +211,14 @@ public class QuestionsDAO {
 		ResultSet rs = null;
 		int total_score = 0;
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ranadheer", "ravan");
+			con = Utility.getConnection();
 		    stmt = con.createStatement();
 			String sql = "select sum(score) from result";
 			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
 				total_score = rs.getInt(1);
-			}			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			}
+			con.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -255,8 +242,7 @@ public class QuestionsDAO {
 		String result = "";
 		ArrayList<ResultBean> resultList = null;
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "ranadheer", "ravan");
+			con = Utility.getConnection();
 		    String sql = "select * from result";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -277,9 +263,8 @@ public class QuestionsDAO {
 					resultList.add(resultBean);
 				} while (rs.next());
 			}
+			con.commit();
 					
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -293,6 +278,42 @@ public class QuestionsDAO {
 		}
 	    return resultList;
 	}
+	
+	/***********************Answer Insertion***********/
+	public String insertAnswer(int qNo, String answer) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String result = "";
+		
+		try {
+			con = Utility.getConnection();
+		    String sql = "insert into answers values(?, ?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, qNo);
+			pstmt.setString(2, answer);
+			int no = pstmt.executeUpdate();
+			if(no > 0) {
+				result = "0; Answer inserted successfully";
+			} else {
+				result = "-1; Answer insertion failed";
+			}
+			System.out.println("Result: " + result);
+		    con.commit();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+		}
+		return result;
+	}
+	
 	
 	
 }
